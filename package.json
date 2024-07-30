@@ -1,0 +1,32 @@
+{
+  "name": "simple-kanban-express-prisma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon src/index.ts",
+    "algolia": "npx node indexToAlgolia.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/node": "^18.0.3",
+    "@types/swagger-ui-express": "^4.1.6",
+    "nodemon": "^2.0.19",
+    "prisma": "^4.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.0.0",
+    "algoliasearch": "^4.24.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "express-validation": "^4.1.1",
+    "joi": "^17.13.3",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

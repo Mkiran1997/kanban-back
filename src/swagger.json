@@ -1,0 +1,411 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "simple-kanban-express-prisma",
+        "description": "API documentation for task management",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:4000",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/api/v1/boards/{board_id}/columns/{column_id}/tasks": {
+            "post": {
+                "summary": "Create Task",
+                "description": "Create task in a particular column of the board.",
+                "parameters": [
+                    {
+                        "name": "board_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the board"
+                    },
+                    {
+                        "name": "column_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the column"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTask"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Created task details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/boards/{board_id}/move-task": {
+            "post": {
+                "summary": "Move Task",
+                "description": "Move task from one column to another column.",
+                "parameters": [
+                    {
+                        "name": "board_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the board"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MoveTask"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Moved task details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/tasks": {
+            "post": {
+                "summary": "Filter Task Data",
+                "description": "Retrieve tasks based on optional filters.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FilterTask"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "A list of tasks",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/users": {
+            "get": {
+                "summary": "Get user list",
+                "description": "Retrieve a list of all users.",
+                "responses": {
+                    "200": {
+                        "description": "A list of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "List of user names"
+                                        }
+                                    },
+                                    "example": {
+                                        "data": [
+                                            "Alice",
+                                            "Bob",
+                                            "Charlie",
+                                            "David",
+                                            "Eve"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/tasks/categories": {
+            "get": {
+                "summary": "Get categories list",
+                "description": "Retrieve a list of all categories.",
+                "responses": {
+                    "200": {
+                        "description": "A list of categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "List of categories"
+                                        }
+                                    },
+                                    "example": {
+                                        "data": [
+                                            "Raseau",
+                                            "Design",
+                                            "Informatique"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/board/{board_id}/columns": {
+            "get": {
+                "summary": "Get Columns",
+                "description": "Get All columns of selected boards.",
+                "parameters": [
+                    {
+                        "name": "board_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the board"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Columns task details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Column"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Task": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "position": {
+                        "type": "integer"
+                    },
+                    "columnId": {
+                        "type": "integer"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "user": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "CreateTask": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "string",
+                        "description": "Assigned user"
+                    },
+                    "category": {
+                        "type": "string",
+                        "description": "Category of the task"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Title of the task"
+                    }
+                },
+                "example": {
+                    "category": "Informatique",
+                    "description": "1st task",
+                    "user": "David"
+                }
+            },
+            "MoveTask": {
+                "type": "object",
+                "properties": {
+                    "task": {
+                        "type": "integer",
+                        "description": "Task id"
+                    },
+                    "destination": {
+                        "type": "integer",
+                        "description": "Destination column id"
+                    },
+                    "position": {
+                        "type": "integer",
+                        "description": "On which position you want to move in destination column"
+                    }
+                },
+                "example": {
+                    "task": 4,
+                    "destination": 2,
+                    "position": 2
+                }
+            },
+            "FilterTask": {
+                "type": "object",
+                "properties": {
+                    "users": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Filter tasks by user"
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Filter tasks by category"
+                    },
+                    "startDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Start date for filtering"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "End date for filtering"
+                    }
+                },
+                "example": {
+                    "users": [
+                        "Alice",
+                        "Bob"
+                    ],
+                    "categories": [
+                        "Work",
+                        "Personal"
+                    ],
+                    "startDate": "2024-01-01T00:00:00Z",
+                    "endDate": "2024-12-31T23:59:59Z"
+                }
+            },
+            "Column": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "position": {
+                        "type": "integer"
+                    },
+                    "boardId": {
+                        "type": "integer"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        }
+    }
+}
